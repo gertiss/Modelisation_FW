@@ -11,6 +11,13 @@
 		501C0E1D29CB758D00702ABD /* Modelisation_FW.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 501C0E1229CB758C00702ABD /* Modelisation_FW.framework */; };
 		501C0E2229CB758D00702ABD /* Modelisation_FWTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501C0E2129CB758D00702ABD /* Modelisation_FWTests.swift */; };
 		501C0E2329CB758D00702ABD /* Modelisation_FW.h in Headers */ = {isa = PBXBuildFile; fileRef = 501C0E1529CB758C00702ABD /* Modelisation_FW.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		501C0E3529CB76D800702ABD /* Extension Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501C0E2D29CB76D700702ABD /* Extension Swift.swift */; };
+		501C0E3629CB76D800702ABD /* CodableEnLitteral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501C0E2E29CB76D700702ABD /* CodableEnLitteral.swift */; };
+		501C0E3729CB76D800702ABD /* Collections Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501C0E2F29CB76D700702ABD /* Collections Swift.swift */; };
+		501C0E3829CB76D800702ABD /* CodableEnJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501C0E3029CB76D700702ABD /* CodableEnJson.swift */; };
+		501C0E3929CB76D800702ABD /* InstanciableParNom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501C0E3129CB76D700702ABD /* InstanciableParNom.swift */; };
+		501C0E3A29CB76D800702ABD /* Atomes Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501C0E3229CB76D700702ABD /* Atomes Swift.swift */; };
+		501C0E3C29CB76D800702ABD /* UnLitteral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501C0E3429CB76D800702ABD /* UnLitteral.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +36,13 @@
 		501C0E1629CB758D00702ABD /* Modelisation_FW.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = Modelisation_FW.docc; sourceTree = "<group>"; };
 		501C0E1C29CB758D00702ABD /* Modelisation_FWTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Modelisation_FWTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		501C0E2129CB758D00702ABD /* Modelisation_FWTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Modelisation_FWTests.swift; sourceTree = "<group>"; };
+		501C0E2D29CB76D700702ABD /* Extension Swift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension Swift.swift"; sourceTree = "<group>"; };
+		501C0E2E29CB76D700702ABD /* CodableEnLitteral.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodableEnLitteral.swift; sourceTree = "<group>"; };
+		501C0E2F29CB76D700702ABD /* Collections Swift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Collections Swift.swift"; sourceTree = "<group>"; };
+		501C0E3029CB76D700702ABD /* CodableEnJson.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodableEnJson.swift; sourceTree = "<group>"; };
+		501C0E3129CB76D700702ABD /* InstanciableParNom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InstanciableParNom.swift; sourceTree = "<group>"; };
+		501C0E3229CB76D700702ABD /* Atomes Swift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Atomes Swift.swift"; sourceTree = "<group>"; };
+		501C0E3429CB76D800702ABD /* UnLitteral.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnLitteral.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +85,7 @@
 		501C0E1429CB758C00702ABD /* Modelisation_FW */ = {
 			isa = PBXGroup;
 			children = (
+				501C0E2C29CB75AA00702ABD /* Sources */,
 				501C0E1529CB758C00702ABD /* Modelisation_FW.h */,
 				501C0E1629CB758D00702ABD /* Modelisation_FW.docc */,
 			);
@@ -83,6 +98,20 @@
 				501C0E2129CB758D00702ABD /* Modelisation_FWTests.swift */,
 			);
 			path = Modelisation_FWTests;
+			sourceTree = "<group>";
+		};
+		501C0E2C29CB75AA00702ABD /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				501C0E3229CB76D700702ABD /* Atomes Swift.swift */,
+				501C0E2D29CB76D700702ABD /* Extension Swift.swift */,
+				501C0E2F29CB76D700702ABD /* Collections Swift.swift */,
+				501C0E3029CB76D700702ABD /* CodableEnJson.swift */,
+				501C0E2E29CB76D700702ABD /* CodableEnLitteral.swift */,
+				501C0E3129CB76D700702ABD /* InstanciableParNom.swift */,
+				501C0E3429CB76D800702ABD /* UnLitteral.swift */,
+			);
+			path = Sources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -194,7 +223,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				501C0E3529CB76D800702ABD /* Extension Swift.swift in Sources */,
+				501C0E3829CB76D800702ABD /* CodableEnJson.swift in Sources */,
 				501C0E1729CB758D00702ABD /* Modelisation_FW.docc in Sources */,
+				501C0E3A29CB76D800702ABD /* Atomes Swift.swift in Sources */,
+				501C0E3929CB76D800702ABD /* InstanciableParNom.swift in Sources */,
+				501C0E3729CB76D800702ABD /* Collections Swift.swift in Sources */,
+				501C0E3629CB76D800702ABD /* CodableEnLitteral.swift in Sources */,
+				501C0E3C29CB76D800702ABD /* UnLitteral.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -393,6 +429,7 @@
 		501C0E2A29CB758D00702ABD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -407,6 +444,7 @@
 		501C0E2B29CB758D00702ABD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
