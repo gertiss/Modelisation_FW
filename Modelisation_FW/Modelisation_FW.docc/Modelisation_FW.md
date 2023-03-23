@@ -17,11 +17,11 @@ Un littéral peut être de trois formes :
 
 De plus, pour déclarer qu'il est littéral, un type doit être conforme au protocole UnLitteral
 
-    public protocol UnLitteral: Hashable, Comparable, Identifiable, CustomStringConvertible, CodableEnJson  {
+    public protocol UnLitteral: Hashable, Comparable, Identifiable, CustomStringConvertible, Codable, CodableEnJson  {
     
         var codeSwift: String { get }
-    }
-   
+    }   
+
 Il y a une seule méthode à implémenter : `codeSwift` : le code Swift (une String) qui permet la recréation du littéral. Ce code sert d'identificateur pour le protocole `Identifiable`. Il peut être recopié dans un code source Swift pour recréer le littéral, ce qui permet de mémoriser des littéraux obtenus par calcul, par exemple dans des tests.
     
 Les nombreux protocoles Swift sont là pour rendre ces littéraux pratiques et manipulables dans tous les contextes. La description associée à `CustomStringConvertible` est le `codeSwift`. Donc quand on fait `print(x)` pour un littéral `x`, on voit son `codeSwift`. Et la variable `id`de `Identifiable` est le `codeSwift`. Grâce à `Comparable`, les Array de littéraux peuvent être ordonnés par la méthode `sorted()`, qui ordonne suivant l'ordre alphabétique des `codeSwift`.
@@ -82,3 +82,21 @@ Un type prédicat possède différentes `static func` surcharges de `instances` 
 La seule chose qui distingue un type prédicat d'un autre type objet est l'existence de fonctions requêtes `instances`, et cela ne peut pas être exprimé par un protocole car il n'y a rien de générique. Tout tient seulement dans l'interprétation que le programmeur en fait.
 
 Dans cette vision "langage logique relationnel" du modèle, certains objets sont considérés comme des entités (des choses qui existent) et d'autres comme des faits (des phrases qui relient des entités et éventuellement d'autres faits). Mais ce n'est pas explicitement formalisé en Swift, c'est juste un point de vue du programmeur.
+
+## AvecLangage
+
+Un littéral peut être un objet composé, éventuellement un peu complexe. Pour simplifier cette complexité, certains littéraux peuvent être conformes au protocole `AvecLangage`
+
+    public protocol AvecLangage {
+        var source: String { get }
+        init(source: String)
+    }
+
+`source` est une String représentant le littéral suivant une certaine syntaxe dépendant du type de littéral. Il n'y a pas de langage global universel, et tout n'est pas forcément représentable sous forme de source. On n'introduit la conformité à ce protocole que quand cela est nécessaire et pratique. C'est pratique en particulier lors de la phase initiale de mise au point pour écrire à la main des exemples et des tests.
+
+Une fois qu'un littéral est conforme à `AvecLangage`, le type objet associé (conforme à `CodableEnLitteral`) peut facilement être rendu  conforme à `AvecLangage`avec le même langage que pour le littéral.
+
+Pour le type objet X, il suffit de déclarer :
+
+    extension X: AvecLangage { }
+

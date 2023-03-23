@@ -18,7 +18,7 @@ extension Array: UnLitteral, Comparable, Identifiable, CodableEnJson where Eleme
 /// Un Array de CodableEnLitteral possède les fonctions de CodableEnLitteral
 /// mais il semble impossible de lui faire vérifier le protocole CodableEnLitteral
 /// sans doute à cause de conflits avec des protocoles par défaut dans Swift pour Array
-extension Array where Element: CodableEnLitteral  {
+extension Array where Element: CodableEnLitteral {
     
     /// Pour pouvoir définir Self.Litteral
     public typealias Litteral = [Element.Litteral]
@@ -32,12 +32,11 @@ extension Array where Element: CodableEnLitteral  {
     }
     
     /// Protocole Identifiable
-    public var id: String {
-        litteral.codeSwift
+    public var id: Litteral {
+        litteral
     }
     
-    /// Protocole Comparable. On compare les textes suivant l'ordre de leurs littéraux.
-    
+    /// Protocole Comparable.
     public static func < (lhs: Self, rhs: Self) -> Bool {
         lhs.litteral < rhs.litteral
     }

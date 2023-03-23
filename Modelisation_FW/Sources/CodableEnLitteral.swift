@@ -11,7 +11,7 @@ import Foundation
 /// Un type CodableEnLitteral possède une propriété `litteral` conforme au protocole UnLitteral.
 /// Cela permet de lui faire profiter de certaines fonctions de UnLitteral,
 /// en particulier la conformité aux protocoles de UnLitteral.
-public protocol CodableEnLitteral: Hashable, CustomStringConvertible, CodableEnJson {
+public protocol CodableEnLitteral: Hashable, CustomStringConvertible, Comparable, CodableEnJson {
     associatedtype Litteral: UnLitteral
     
     var litteral: Litteral { get }
@@ -58,3 +58,14 @@ public extension CodableEnLitteral {
     
 }
 
+extension CodableEnLitteral where Litteral: AvecLangage {
+    
+    public var source: String {
+        litteral.source
+    }
+    
+    public init(source: String) {
+        self = Self(litteral: Litteral(source: source))
+    }
+    
+}
