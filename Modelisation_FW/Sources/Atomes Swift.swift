@@ -12,9 +12,10 @@ import Foundation
 /// Les valeurs Swift de base : Int, Double, Bool  vérifient le protocole InstanciableParNom, et donc CodableEnLitteral. Ils sont dans l'univers "sémantique" des objets.
 /// Leur représentation en littéral est une String.
 
-/// Le type String est littéral 
+/// Le type String est UnLitteral, mais pas CodableEnLitteral.
 extension String: UnLitteral {
     
+    /// Le codeSwift de `"abc"` est `"\"abc\""`
     public var codeSwift: String {
         self.debugDescription
     }
@@ -28,7 +29,7 @@ extension Int: InstanciableParNom  {
         String(self)
     }
     
-    /// litteral est de la forme "123". On obtient un Int 123
+    /// nom est de la forme "123". On obtient un Int 123
     /// fatalError si syntaxe invalide
     public init(nom: String) {
         self = Int(nom)!
@@ -42,7 +43,7 @@ extension Double: InstanciableParNom {
         String(self)
     }
     
-    /// litteral est de la forme "0.123", on obtient un Double 0.123
+    /// nom est de la forme "0.123", on obtient un Double 0.123
     /// fatalError si syntaxe invalide
     public init(nom: String) {
         self = Double(nom)!
@@ -56,7 +57,7 @@ extension Bool: InstanciableParNom {
         String(self)
     }
     
-    /// litteral est de la forme "true" ou "false". On obtient un Bool true ou false.
+    /// nom est de la forme "true" ou "false". On obtient un Bool true ou false.
     /// fatalError si syntaxe invalide
     public init(nom: String) {
         self = Bool(nom)!

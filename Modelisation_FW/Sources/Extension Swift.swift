@@ -7,7 +7,25 @@
 
 import Foundation
 
+// MARK: - String
+
 extension String: Error { }
+
+public extension String {
+    
+    func avecSuppression(de caracteres: String) -> String {
+        var copie = self
+        copie.removeAll { caracteres.contains($0) }
+        return copie
+    }
+    
+    var avecSuppressionEspacesTabsNewlines: String {
+        avecSuppression(de: " \t\n")
+    }
+}
+
+
+// MARK: - Result
 
 /// Accès directs pratiques à un Result
 public extension Result where Failure == String {
@@ -51,6 +69,8 @@ public extension Result where Failure == String {
 
 }
 
+// MARK: - Array
+
 /// Conversions Array-Set
 public extension Array where Element: Hashable {
     var ensemble: Set<Element> {
@@ -62,15 +82,18 @@ public extension Array where Element: Hashable {
         ensemble.count
     }
     
+    /// `[1] -> 1, [1, 1] -> 1, [1, 2] -> nil`
     var uniqueValeur: Element? {
         ensemble.uniqueValeur
     }
     
     /// fatalError si cardinal != 1
+    /// `[1] -> 1, [1, 1] -> 1, [1, 2] -> fatalError`
     var uniqueElement: Element {
         ensemble.uniqueElement
     }
     
+    /// `[1, 2, 1] -> [1, 2]`
     var sansDoublons: Self {
         ensemble.array
     }
@@ -79,23 +102,14 @@ public extension Array where Element: Hashable {
 public extension Array where Element: Hashable & Comparable {
     
     /// Elimine les doublons et ordonne le résultat.
+    ///`[2, 1, 2] -> [1, 2]`
     var compact: Self {
         ensemble.array.sorted()
     }
 }
 
-public extension Dictionary {
-    
-    /// On ajoute l'élément à la valeur de la clé, lorsque cette valeur est un ensemble
-    mutating func ajouter<E>(_ element: E, a cle: Key) where Value == Set<E> {
-        guard var ensemble = self[cle] else {
-            self[cle] = [element]
-            return
-        }
-        ensemble.insert(element)
-        self[cle] = ensemble
-    }
-}
+
+// MARK: - Set
 
 public extension Set {
     
@@ -130,18 +144,22 @@ public extension Set where Element: Comparable {
     }
 }
 
-public extension String {
+// MARK: - Dictionary
+
+public extension Dictionary {
     
-    func avecSuppression(de caracteres: String) -> String {
-        var copie = self
-        copie.removeAll { caracteres.contains($0) }
-        return copie
-    }
-    
-    var avecSuppressionEspacesTabsNewlines: String {
-        avecSuppression(de: " \t\n")
+    /// On ajoute l'élément à la valeur de la clé, lorsque cette valeur est un ensemble
+    mutating func ajouter<E>(_ element: E, a cle: Key) where Value == Set<E> {
+        guard var ensemble = self[cle] else {
+            self[cle] = [element]
+            return
+        }
+        ensemble.insert(element)
+        self[cle] = ensemble
     }
 }
+
+// MARK: - Int
 
 public extension Int {
 

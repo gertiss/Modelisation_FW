@@ -15,8 +15,8 @@ extension Array: UnLitteral, Comparable, Identifiable, CodableEnJson where Eleme
     }
 }
 
-/// Un Array de CodableEnLitteral possède les fonctions de CodableEnLitteral
-/// mais il semble impossible de lui faire vérifier le protocole CodableEnLitteral
+/// Un Array de CodableEnLitteral possède les fonctions de CodableEnLitteral.
+/// mais il semble impossible de lui faire vérifier le protocole CodableEnLitteral,
 /// sans doute à cause de conflits avec des protocoles par défaut dans Swift pour Array
 extension Array where Element: CodableEnLitteral {
     

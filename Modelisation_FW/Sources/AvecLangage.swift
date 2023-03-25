@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// Peut être écrit et relu suivant une String
 public protocol AvecLangage {
     var source: String { get }
     init(source: String)

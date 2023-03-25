@@ -24,7 +24,7 @@ De plus, pour déclarer qu'il est littéral, un type doit être conforme au prot
 
 Il y a une seule méthode à implémenter : `codeSwift` : le code Swift (une String) qui permet la recréation du littéral. Ce code sert d'identificateur pour le protocole `Identifiable`. Il peut être recopié dans un code source Swift pour recréer le littéral, ce qui permet de mémoriser des littéraux obtenus par calcul, par exemple dans des tests.
     
-Les nombreux protocoles Swift sont là pour rendre ces littéraux pratiques et manipulables dans tous les contextes. La description associée à `CustomStringConvertible` est le `codeSwift`. Donc quand on fait `print(x)` pour un littéral `x`, on voit son `codeSwift`. Et la variable `id`de `Identifiable` est le `codeSwift`. Grâce à `Comparable`, les Array de littéraux peuvent être ordonnés par la méthode `sorted()`, qui ordonne suivant l'ordre alphabétique des `codeSwift`.
+Les nombreux protocoles Swift sont là pour rendre ces littéraux pratiques et manipulables dans tous les contextes. La description associée à `CustomStringConvertible` est le `codeSwift`. Donc quand on fait `print(x)` pour un littéral `x`, on voit son `codeSwift`. Et la variable `id` de `Identifiable` est le `codeSwift`. Grâce à `Comparable`, les Array de littéraux peuvent être ordonnés par la méthode `sorted()`, qui ordonne suivant l'ordre alphabétique des `codeSwift`.
 
 Le protocole `CodableEnJson` est là pour permettre l'import-export en Json, là aussi de manière pratique dans différents contextes de traitement d'erreurs :
 
@@ -52,10 +52,11 @@ Le protocole `UnLitteral` est destiné à servir de protocole de communication e
 
 Un "type objet" est un type Swift qui admet une représentation en littéral, suivant le protocole `CodableEnLitteral` :
 
-    public protocol CodableEnLitteral: Hashable, Identifiable, CustomStringConvertible, Comparable {
+    public protocol CodableEnLitteral: Hashable, CustomStringConvertible, Comparable, CodableEnJson {
         associatedtype Litteral: UnLitteral
         
         var litteral: Litteral { get }
+        
         init(litteral: Litteral)
     }
 
@@ -71,7 +72,7 @@ Un protocole spécialisé qui hérite de `CodableEnLitteral` est `InstanciablePa
 
 Ce type d'objet instanciable par nom est vu comme "atomique", les autres étant "composés".
 
-On peut sauvegarder un objet sur un fichier en sauvegardant son littéral en Json. A la lecture, on relit le littéral avec `avecJson(json:)` puis on reconstitue l'objet à partir du littéral avec `init(litteral:)`
+On peut sauvegarder un objet sur un fichier et le reconstituer grâce au protocole CodableEnJson.
 
 ## Types prédicats, faits
 

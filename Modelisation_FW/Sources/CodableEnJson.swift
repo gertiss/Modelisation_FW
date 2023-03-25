@@ -27,12 +27,11 @@ public protocol CodableEnJson {
 
 }
 
-
+// MARK: - Result
 
 public extension CodableEnJson where Self: Codable {
     
-    // MARK: Encodage
-    
+    /// Encodage (pour produire du texte json)
     var jsonResult: Result<String, String> {
         do {
             let encoder = JSONEncoder()
@@ -47,8 +46,7 @@ public extension CodableEnJson where Self: Codable {
     }
     
 
-    // MARK: Decodage
-    
+    /// Décodage (pour lire du texte json)
     static func avecJsonResult(_ json: String) -> Result<Self, String> {
         let decoder = JSONDecoder()
         guard let data = json.data(using: .utf8) else {
@@ -63,6 +61,8 @@ public extension CodableEnJson where Self: Codable {
     }
     
 }
+
+// MARK: - throws
 
 public extension CodableEnJson {
     

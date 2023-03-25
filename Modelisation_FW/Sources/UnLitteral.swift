@@ -11,7 +11,7 @@ import Foundation
 /// C'est un peu comme une expression syntaxique structurée utilisable facilement dans les communications et dans les tests.
 /// Cette expression est un peu analogue à du Lisp ou du JSON typé.
 /// Mais à la différence de Json on ne cherche pas à relire un any Litteral non typé.
-/// Les types Swift de base Int, Double, Bool, String sont conformes à UnLitteral.
+/// Les types Swift de base Int, Double, Bool sont conformes à UnLitteral, mais String ne l'est pas.
 public protocol UnLitteral: Hashable, Comparable, Identifiable, CustomStringConvertible, Codable, CodableEnJson  {
     
     /// Le texte du code Swift qui permet de recréer self

@@ -8,7 +8,7 @@
 import Foundation
 
 
-/// Un type CodableEnLitteral possède une propriété `litteral` conforme au protocole UnLitteral.
+/// Un type CodableEnLitteral possède une propriété `litteral` conforme au protocole `UnLitteral`.
 /// Cela permet de lui faire profiter de certaines fonctions de UnLitteral,
 /// en particulier la conformité aux protocoles de UnLitteral.
 public protocol CodableEnLitteral: Hashable, CustomStringConvertible, Comparable, CodableEnJson {
