@@ -26,7 +26,7 @@ public extension UnLitteral {
         codeSwift
     }
         
-    /// Protocole Comparable. On compare les textes par ordre alphabétique.
+    /// Protocole Comparable. On compare les codes Swift par ordre alphabétique.
     static func < (lhs: Self, rhs: Self) -> Bool {
         lhs.codeSwift < rhs.codeSwift
     }

@@ -22,7 +22,7 @@ De plus, pour déclarer qu'il est littéral, un type doit être conforme au prot
         var codeSwift: String { get }
     }   
 
-Il y a une seule méthode à implémenter : `codeSwift` : le code Swift (une String) qui permet la recréation du littéral. Ce code sert d'identificateur pour le protocole `Identifiable`. Il peut être recopié dans un code source Swift pour recréer le littéral, ce qui permet de mémoriser des littéraux obtenus par calcul, par exemple dans des tests.
+Il y a une seule méthode à implémenter : `codeSwift` : le code Swift (une String) qui permet la recréation du littéral. Ce code sert d'identificateur pour le protocole `Identifiable`. Il peut être recopié dans un code source Swift pour recréer le littéral, ce qui permet de mémoriser des littéraux obtenus par calcul, par exemple dans des tests. Dans ce code Swift, les variables de type String du littéral doivent être affichées avec debugDescription.
     
 Les nombreux protocoles Swift sont là pour rendre ces littéraux pratiques et manipulables dans tous les contextes. La description associée à `CustomStringConvertible` est le `codeSwift`. Donc quand on fait `print(x)` pour un littéral `x`, on voit son `codeSwift`. Et la variable `id` de `Identifiable` est le `codeSwift`. Grâce à `Comparable`, les Array de littéraux peuvent être ordonnés par la méthode `sorted()`, qui ordonne suivant l'ordre alphabétique des `codeSwift`.
 
@@ -60,6 +60,9 @@ Un "type objet" est un type Swift qui admet une représentation en littéral, su
         init(litteral: Litteral)
     }
 
+
+
+Le littéral est isomorphe à l'objet, ses variables étant les littéraux des variables de l'objet.
 On peut reconstituer l'objet d'après son littéral.
 
 Un protocole spécialisé qui hérite de `CodableEnLitteral` est `InstanciableParNom`. C'est le cas où le littéral est une String, qu'on appelle le "nom" de l'objet :
@@ -73,16 +76,6 @@ Un protocole spécialisé qui hérite de `CodableEnLitteral` est `InstanciablePa
 Ce type d'objet instanciable par nom est vu comme "atomique", les autres étant "composés".
 
 On peut sauvegarder un objet sur un fichier et le reconstituer grâce au protocole CodableEnJson.
-
-## Types prédicats, faits
-
-Certains types objet composés peuvent être considérés comme des "prédicats" exprimant une relation entre différents objets. Une instance d'un type prédicat est vue comme un "fait". C'est un point de vue qui s'apparente aux bases de données relationnelles et aux langages logiques comme Prolog.
-
-Un type prédicat possède différentes `static func` surcharges de `instances` vues comme des requêtes permettant d'effectuer des recherches. Chacune rend une liste de faits instances du prédicat : les faits qui satisfont les conditions de la requête. Chaque type de prédicat a ses requêtes particulières. Il n'y a pas de requête générique automatique, il faut programmer chaque requête.
-
-La seule chose qui distingue un type prédicat d'un autre type objet est l'existence de fonctions requêtes `instances`, et cela ne peut pas être exprimé par un protocole car il n'y a rien de générique. Tout tient seulement dans l'interprétation que le programmeur en fait.
-
-Dans cette vision "langage logique relationnel" du modèle, certains objets sont considérés comme des entités (des choses qui existent) et d'autres comme des faits (des phrases qui relient des entités et éventuellement d'autres faits). Mais ce n'est pas explicitement formalisé en Swift, c'est juste un point de vue du programmeur.
 
 ## AvecLangage
 
@@ -100,4 +93,15 @@ Une fois qu'un littéral est conforme à `AvecLangage`, le type objet associé (
 Pour le type objet X, il suffit de déclarer :
 
     extension X: AvecLangage { }
+
+## Types prédicats, faits
+
+Certains types objet composés peuvent être considérés comme des "prédicats" exprimant une relation entre différents objets. Une instance d'un type prédicat est vue comme un "fait". C'est un point de vue qui s'apparente aux bases de données relationnelles et aux langages logiques comme Prolog.
+
+Un type prédicat possède différentes `static func` surcharges de `instances` vues comme des requêtes permettant d'effectuer des recherches. Chacune rend une liste de faits instances du prédicat : les faits qui satisfont les conditions de la requête. Chaque type de prédicat a ses requêtes particulières. Il n'y a pas de requête générique automatique, il faut programmer chaque requête.
+
+La seule chose qui distingue un type prédicat d'un autre type objet est l'existence de fonctions requêtes `instances`, et cela ne peut pas être exprimé par un protocole car il n'y a rien de générique. Tout tient seulement dans l'interprétation que le programmeur en fait.
+
+Dans cette vision "langage logique relationnel" du modèle, certains objets sont considérés comme des entités (des choses qui existent) et d'autres comme des faits (des phrases qui relient des entités et éventuellement d'autres faits). Mais ce n'est pas explicitement formalisé en Swift, c'est juste un point de vue du programmeur.
+
 
