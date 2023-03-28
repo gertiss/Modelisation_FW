@@ -29,6 +29,7 @@ public extension CodableEnLitteral {
     /// Fonctionne pour les struct, mais pas pour les enum, qui ne peuvent pas être instanciées.
     /// Les enum doivent redéfinir leur propre description.
     /// Ce n'est peut-être pas une bonne idée, mais sinon il faut définir toutes les descriptions explicitement.
+    /// Peut-être faut-il utiliser Mirror
     var description: String {
         "\(Self.self)(litteral: \(litteral.description))"
     }

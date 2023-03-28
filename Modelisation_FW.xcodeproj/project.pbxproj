@@ -19,6 +19,7 @@
 		501C0E3A29CB76D800702ABD /* Atomes Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501C0E3229CB76D700702ABD /* Atomes Swift.swift */; };
 		501C0E3C29CB76D800702ABD /* UnLitteral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501C0E3429CB76D800702ABD /* UnLitteral.swift */; };
 		50430B7129CC55690002B080 /* AvecLangage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50430B7029CC55690002B080 /* AvecLangage.swift */; };
+		50A92B0029D2DA410074C5CB /* DecodableEnObjet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A92AFF29D2DA410074C5CB /* DecodableEnObjet.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +46,7 @@
 		501C0E3229CB76D700702ABD /* Atomes Swift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Atomes Swift.swift"; sourceTree = "<group>"; };
 		501C0E3429CB76D800702ABD /* UnLitteral.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnLitteral.swift; sourceTree = "<group>"; };
 		50430B7029CC55690002B080 /* AvecLangage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvecLangage.swift; sourceTree = "<group>"; };
+		50A92AFF29D2DA410074C5CB /* DecodableEnObjet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodableEnObjet.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,9 +111,10 @@
 				501C0E2D29CB76D700702ABD /* Extension Swift.swift */,
 				501C0E2F29CB76D700702ABD /* Collections Swift.swift */,
 				501C0E3029CB76D700702ABD /* CodableEnJson.swift */,
+				501C0E3429CB76D800702ABD /* UnLitteral.swift */,
 				501C0E2E29CB76D700702ABD /* CodableEnLitteral.swift */,
 				501C0E3129CB76D700702ABD /* InstanciableParNom.swift */,
-				501C0E3429CB76D800702ABD /* UnLitteral.swift */,
+				50A92AFF29D2DA410074C5CB /* DecodableEnObjet.swift */,
 				50430B7029CC55690002B080 /* AvecLangage.swift */,
 			);
 			path = Sources;
@@ -235,6 +238,7 @@
 				501C0E3729CB76D800702ABD /* Collections Swift.swift in Sources */,
 				501C0E3629CB76D800702ABD /* CodableEnLitteral.swift in Sources */,
 				501C0E3C29CB76D800702ABD /* UnLitteral.swift in Sources */,
+				50A92B0029D2DA410074C5CB /* DecodableEnObjet.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -9,11 +9,12 @@ Les littéraux concernent la représentation "syntaxique" et les types objets la
 
 ## Types littéraux
 
-Un littéral peut être de trois formes :
+Un littéral peut être de quatre formes :
 
 - Une String
 - Un Array de littéraux
 - Une struct dont les variables stockées sont des littéraux
+- Une enum dont les cas avec valeur associés ont des valeurs littérales
 
 De plus, pour déclarer qu'il est littéral, un type doit être conforme au protocole UnLitteral
 
@@ -22,9 +23,9 @@ De plus, pour déclarer qu'il est littéral, un type doit être conforme au prot
         var codeSwift: String { get }
     }   
 
-Il y a une seule méthode à implémenter : `codeSwift` : le code Swift (une String) qui permet la recréation du littéral. Ce code sert d'identificateur pour le protocole `Identifiable`. Il peut être recopié dans un code source Swift pour recréer le littéral, ce qui permet de mémoriser des littéraux obtenus par calcul, par exemple dans des tests. Dans ce code Swift, les variables de type String du littéral doivent être affichées avec debugDescription.
+Il y a une seule méthode à implémenter : `codeSwift` : le code Swift (une String) qui permet la recréation du littéral. Ce code sert d'identificateur pour le protocole `Identifiable`. Il peut être recopié dans un code source Swift pour recréer le littéral, ce qui permet de mémoriser des littéraux obtenus par calcul, par exemple dans des tests. 
     
-Les nombreux protocoles Swift sont là pour rendre ces littéraux pratiques et manipulables dans tous les contextes. La description associée à `CustomStringConvertible` est le `codeSwift`. Donc quand on fait `print(x)` pour un littéral `x`, on voit son `codeSwift`. Et la variable `id` de `Identifiable` est le `codeSwift`. Grâce à `Comparable`, les Array de littéraux peuvent être ordonnés par la méthode `sorted()`, qui ordonne suivant l'ordre alphabétique des `codeSwift`.
+Les nombreux protocoles Swift sont là pour rendre ces littéraux pratiques et manipulables dans tous les contextes. La description associée à `CustomStringConvertible` est le `codeSwift`. Donc quand on fait `print(x)` pour un littéral `x`, on voit son `codeSwift`. Et la variable `id` de `Identifiable` est le `codeSwift`. Grâce à `Comparable`, les Array de littéraux peuvent être ordonnés par la méthode `sorted()`, qui ordonne suivant l'ordre alphabétique des `codeSwift`. La debugDescription associée à `CustomDebugStringConvertible` est la debugDescription de la description.
 
 Le protocole `CodableEnJson` est là pour permettre l'import-export en Json, là aussi de manière pratique dans différents contextes de traitement d'erreurs :
 
@@ -52,7 +53,7 @@ Le protocole `UnLitteral` est destiné à servir de protocole de communication e
 
 Un "type objet" est un type Swift qui admet une représentation en littéral, suivant le protocole `CodableEnLitteral` :
 
-    public protocol CodableEnLitteral: Hashable, CustomStringConvertible, Comparable, CodableEnJson {
+    public protocol CodableEnLitteral: Hashable, CustomStringConvertible, CustomDebugStringConvertible, Comparable, CodableEnJson {
         associatedtype Litteral: UnLitteral
         
         var litteral: Litteral { get }
