@@ -11,7 +11,7 @@ import Foundation
 /// Le nom définit une sorte de langage de sérialisation permettant de lire et écrire la valeur sous forme compacte.
 /// C'est un cas particulier de CodableEnLitteral, avec litteral = nom.
 /// C'est un cas particulier de AvecLangage, avec source = nom.
-public protocol InstanciableParNom: CodableEnLitteral, AvecLangage {
+public protocol InstanciableParNom:  AvecLangage {
     
     var nom: String { get }
     init(nom: String)

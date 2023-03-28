@@ -18,7 +18,18 @@ final class Modelisation_FWTests: XCTestCase {
         print()
     }
 
-    func testArray() {
+    func testUnAtome() {
+        XCTAssertEqual(1.nom, "1")
+        XCTAssertEqual(0.1.nom, "0.1")
+        XCTAssertEqual(true.nom, "true")
+        XCTAssertEqual(false.nom, "false")
         
-    }
+        XCTAssertEqual(Int(nom: "1"), 1)
+        XCTAssertEqual(Double(nom: "0.1"), 0.1)
+        XCTAssertEqual(Bool(nom: "true"), true)
+        XCTAssertEqual(Bool(nom: "false"), false)
+        
+        XCTAssertEqual("abc".codeSwift, "\"abc\"")
+   }
+    
 }

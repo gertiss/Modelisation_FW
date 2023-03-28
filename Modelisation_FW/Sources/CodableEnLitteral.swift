@@ -11,7 +11,7 @@ import Foundation
 /// Un type CodableEnLitteral possède une propriété `litteral` conforme au protocole `UnLitteral`.
 /// Cela permet de lui faire profiter de certaines fonctions de UnLitteral,
 /// en particulier la conformité aux protocoles de UnLitteral.
-public protocol CodableEnLitteral: Hashable, CustomStringConvertible, Comparable, CodableEnJson {
+public protocol CodableEnLitteral: Hashable, CustomStringConvertible, CustomDebugStringConvertible, Comparable, CodableEnJson {
     associatedtype Litteral: UnLitteral
     
     var litteral: Litteral { get }
@@ -25,9 +25,18 @@ public extension CodableEnLitteral {
         litteral
     }
     
+    /// Valeur par défaut : utilise la description du Litteral
+    /// Fonctionne pour les struct, mais pas pour les enum, qui ne peuvent pas être instanciées.
+    /// Les enum doivent redéfinir leur propre description.
+    /// Ce n'est peut-être pas une bonne idée, mais sinon il faut définir toutes les descriptions explicitement.
     var description: String {
-        litteral.codeSwift
+        "\(Self.self)(litteral: \(litteral.description))"
     }
+    
+    var debugDescription: String {
+        description.debugDescription
+    }
+
     
     static func == (lhs: Self, rhs: Self) -> Bool {
         lhs.litteral == rhs.litteral

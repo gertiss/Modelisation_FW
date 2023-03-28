@@ -9,9 +9,6 @@ import Foundation
 
 // MARK: - Atomes Swift
 
-/// Les valeurs Swift de base : Int, Double, Bool  vérifient le protocole InstanciableParNom, et donc CodableEnLitteral. Ils sont dans l'univers "sémantique" des objets.
-/// Leur représentation en littéral est une String.
-
 /// Le type String est UnLitteral, mais pas CodableEnLitteral.
 extension String: UnLitteral {
     
@@ -22,13 +19,38 @@ extension String: UnLitteral {
     
 }
 
+/// N'hérite pas de InstanciableParNom ni de CodableEnLitteral mais en a les méthodes
+/// Le but est d'éviter des conflits avec les méthodes par défaut pour descriptiion
+public protocol UnAtome: AvecLangage {
+    var nom: String { get }
+    init(nom: String)
+}
 
-extension Int: InstanciableParNom  {
+public extension UnAtome {
+        
+    var litteral: String {
+        nom
+    }
     
+    init(litteral: String) {
+        self = Self(nom: litteral)
+    }
+    
+    var source: String {
+        nom
+    }
+    
+    init(source: String) {
+        self = Self(nom: source)
+    }
+}
+
+extension Int: UnAtome {
+
     public var nom: String {
         String(self)
     }
-    
+
     /// nom est de la forme "123". On obtient un Int 123
     /// fatalError si syntaxe invalide
     public init(nom: String) {
@@ -37,12 +59,12 @@ extension Int: InstanciableParNom  {
 
 }
 
-extension Double: InstanciableParNom {
+extension Double: UnAtome {
 
     public var nom: String {
         String(self)
     }
-    
+
     /// nom est de la forme "0.123", on obtient un Double 0.123
     /// fatalError si syntaxe invalide
     public init(nom: String) {
@@ -51,12 +73,12 @@ extension Double: InstanciableParNom {
 
 }
 
-extension Bool: InstanciableParNom {
-    
+extension Bool: UnAtome {
+
     public var nom: String {
         String(self)
     }
-    
+
     /// nom est de la forme "true" ou "false". On obtient un Bool true ou false.
     /// fatalError si syntaxe invalide
     public init(nom: String) {
