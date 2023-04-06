@@ -7,17 +7,16 @@
 
 import Foundation
 
-/// Tout type vérifiant InstanciableParNom peut créer ses instances à partir d'un "nom" String
+/// Tout type vérifiant CodableParNom peut créer ses instances à partir d'un "nom" String
 /// Le nom définit une sorte de langage de sérialisation permettant de lire et écrire la valeur sous forme compacte.
-/// C'est un cas particulier de CodableEnLitteral, avec litteral = nom.
 /// C'est un cas particulier de AvecLangage, avec source = nom.
-public protocol InstanciableParNom:  AvecLangage {
+public protocol CodableParNom:  Hashable, CodableEnLitteral, Codable, AvecLangage {
     
     var nom: String { get }
     init(nom: String)
 }
 
-public extension InstanciableParNom {
+public extension CodableParNom {
     
     var litteral: String {
         nom

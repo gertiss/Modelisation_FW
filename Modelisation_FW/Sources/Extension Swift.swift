@@ -9,7 +9,12 @@ import Foundation
 
 // MARK: - String
 
-extension String: Error { }
+extension String: Error {
+    
+    public var localizedDescription: String {
+        self
+    }
+}
 
 public extension String {
     

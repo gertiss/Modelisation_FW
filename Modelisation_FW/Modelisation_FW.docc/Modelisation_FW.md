@@ -1,108 +1,147 @@
 #  Modelisation doc
 
-La modélisation d'un domaine se fait à l'aide de deux sortes de types Swift :
+## Structure
 
-- Les types littéraux, conformes à `UnLitteral`
-- les types objets, conformes à `CodableEnLitteral`
+La modélisation d'un domaine se fait à l'aide de types Swift par valeur.
 
-Les littéraux concernent la représentation "syntaxique" et les types objets la représentation "sémantique"
+Un "objet du modèle" peut être simple ou composé :
 
-## Types littéraux
+- Un atome Swift (String, Int, Double, Bool)
+- Une enum sans valeurs associées
+- Un Array d'objets
+- Un Set d'objets
+- Une struct dont les variables stockées sont des objets
+- Une enum dont les cas avec valeur associée ont des valeurs objets
 
-Un littéral peut être de quatre formes :
 
-- Une String
-- Un Array de littéraux
-- Une struct dont les variables stockées sont des littéraux
-- Une enum dont les cas avec valeur associés ont des valeurs littérales
+## Littéral
 
-De plus, pour déclarer qu'il est littéral, un type doit être conforme au protocole UnLitteral
+Certains types objets peuvent admettre une représentation en "littéral". Pour cela ils doivent être déclarés conformes à `CodableEnLitteral`. Un littéral est un objet censé être communicable de manière publique, alors que les types objets sont a priori privés. L'objet connaît son littéral. Le littéral est public mais l'objet est privé.
 
-    public protocol UnLitteral: Hashable, Comparable, Identifiable, CustomStringConvertible, Codable, CodableEnJson  {
-    
+    public typealias UnLitteral = AvecCodeSwift & CodableEnJson 
+
+    public protocol AvecCodeSwift {
         var codeSwift: String { get }
-    }   
-
-Il y a une seule méthode à implémenter : `codeSwift` : le code Swift (une String) qui permet la recréation du littéral. Ce code sert d'identificateur pour le protocole `Identifiable`. Il peut être recopié dans un code source Swift pour recréer le littéral, ce qui permet de mémoriser des littéraux obtenus par calcul, par exemple dans des tests. 
-    
-Les nombreux protocoles Swift sont là pour rendre ces littéraux pratiques et manipulables dans tous les contextes. La description associée à `CustomStringConvertible` est le `codeSwift`. Donc quand on fait `print(x)` pour un littéral `x`, on voit son `codeSwift`. Et la variable `id` de `Identifiable` est le `codeSwift`. Grâce à `Comparable`, les Array de littéraux peuvent être ordonnés par la méthode `sorted()`, qui ordonne suivant l'ordre alphabétique des `codeSwift`. La debugDescription associée à `CustomDebugStringConvertible` est la debugDescription de la description.
-
-Le protocole `CodableEnJson` est là pour permettre l'import-export en Json, là aussi de manière pratique dans différents contextes de traitement d'erreurs :
-
-    public protocol CodableEnJson: Codable {
-    
-        // Fonctions directes avec fatalError si échec
-    
-        var json: String { get }
-        static func avecJson(_ json: String) -> Self
-    
-        // Fonctions avec Result
-    
-        var jsonResult: Result<String, String> { get }
-        static func avecJsonResult(_ json: String) -> Result<Self, String>
-    
-        // fonctions avec try
-    
-        func jsonThrows() throws -> String
-        static func avecJsonThrows(_ json: String) throws -> Self
     }
 
-Le protocole `UnLitteral` est destiné à servir de protocole de communication entre différents modules bien séparés qui ne connaissent rien de leurs implémentations respectives, par exemple un framework et une interface.
+    public protocol CodableEnJson: Codable {
+        var jsonResult: Result<String, String> { get }
+        static func avecJsonResult(_ code: String) -> Result<Self, String>
+    }
 
-## Types objets
-
-Un "type objet" est un type Swift qui admet une représentation en littéral, suivant le protocole `CodableEnLitteral` :
-
-    public protocol CodableEnLitteral: Hashable, CustomStringConvertible, CustomDebugStringConvertible, Comparable, CodableEnJson {
+    public protocol CodableEnLitteral {
         associatedtype Litteral: UnLitteral
-        
         var litteral: Litteral { get }
-        
         init(litteral: Litteral)
     }
 
+Convention de nommage en Swift :  si un type X est conforme à `CodableEnLitteral` alors son type littéral associé `X.Litteral` doit s'appeler `X_`. Ce n'est qu'une convention humaine, elle ne peut pas être vérifiée ni statiquement par le compilateur ni dynamiquement par programme. Elle est importante pour la lisibilité et la cohérence.
 
+Un "littéral" peut être simple ou composé :
 
-Le littéral est isomorphe à l'objet, ses variables étant les littéraux des variables de l'objet.
-On peut reconstituer l'objet d'après son littéral.
+- Un atome Swift (String, Int, Double, Bool)
+- Une enum sans valeurs associées
+- Un Array de littéraux
+- Un Set de littéraux
+- Une struct dont les variables stockées sont des littéraux
+- Une enum dont les cas avec valeur associée ont des valeurs littérales
 
-Un protocole spécialisé qui hérite de `CodableEnLitteral` est `InstanciableParNom`. C'est le cas où le littéral est une String, qu'on appelle le "nom" de l'objet :
+Un littéral peut être plus "plat" que l'objet qu'il représente, grâce à la possibilité pour un objet d'être conforme au protocole `CodableParNom` :
 
-    public protocol InstanciableParNom: CodableEnLitteral {
-        
+    public protocol CodableParNom:  Hashable, CodableEnLitteral, Codable, AvecLangage {
         var nom: String { get }
         init(nom: String)
     }
 
-Ce type d'objet instanciable par nom est vu comme "atomique", les autres étant "composés".
+Même si le type X de l'objet est composé, lorsqu'il est `CodableParNom` son type littéral associé `X_` est String, ce qui fait que la structure de X est "aplatie" en une String de manière opaque. L'utilisateur de `X_` ne voit qu'une String.
 
-On peut sauvegarder un objet sur un fichier et le reconstituer grâce au protocole CodableEnJson.
+Dans les autres cas, la structure du littéral `X_` est quasiment isomorphe à celle de l'objet `X`.
 
-## AvecLangage
+Mais si c'est isomorphe, pourquoi déclarer deux types ? Cela semble redondant et inutile ! 
 
-Un littéral peut être un objet composé, éventuellement un peu complexe. Pour simplifier cette complexité, certains littéraux peuvent être conformes au protocole `AvecLangage`
+Les différences importantes sont les suivantes :
 
-    public protocol AvecLangage {
-        var source: String { get }
-        init(source: String)
+- le type objet `X` est privé, alors que le type littéral `X_` est public. Cela permet de choisir ce qu'on décide de rendre visible ou pas.
+- le type littéral `X_` est plus adapté à la mise au point d'une interface, au debug, à l'affichage, à la lisibilité, à la saisie manuelle, à l'import-export sur fichier.
+- le type littéral `X_` est plus simple, il a moins de méthodes, seulement celles qui peuvent être utiles pour une interface.
+- le type littéral `X_` a moins de contraintes internes car ce n'est qu'une entité de nature syntaxique, sans sémantique intrinsèque.
+- le type objet `X` est plus adapté aux vérifications sémantiques et aux traitements algorithmiques complexes. Cela risque de le rendre plus complexe, mais cette complexité n'est pas répercutée sur le littéral.
+
+
+## Exemples
+
+### CodableParNom. Litteral String
+
+    struct Cellule {
+        let indexLigne: Int
+        let indexColonne: Int
     }
 
-`source` est une String représentant le littéral suivant une certaine syntaxe dépendant du type de littéral. Il n'y a pas de langage global universel, et tout n'est pas forcément représentable sous forme de source. On n'introduit la conformité à ce protocole que quand cela est nécessaire et pratique. C'est pratique en particulier lors de la phase initiale de mise au point pour écrire à la main des exemples et des tests.
+	extension Cellule: CodableParNom {
+    
+	    public var nom: String {
+	        return "\(ligne.nom)\(colonne.nom)"
+	    }
+	
+	    public init(nom: String) {
+	        let ligneColonne = nom.map { String($0) }
+	        let ligne = ligneColonne[0]
+	        let colonne = ligneColonne[1]
+	        let indexLigne = Ligne.noms.firstIndex(of: ligne)!
+	        let indexColonne = Colonne.noms.firstIndex(of: colonne)!
+	        self = Cellule(indexLigne, indexColonne)
+    	}
+    }
+    
+`init(nom:)` effectue une analyse syntaxique.
+`ligne` est de type Ligne, qui est CodableParNom.
+`colonne` est de type Colonne, qui est CodableParNom.
 
-Une fois qu'un littéral est conforme à `AvecLangage`, le type objet associé (conforme à `CodableEnLitteral`) peut facilement être rendu  conforme à `AvecLangage`avec le même langage que pour le littéral.
+Pour faire profiter l'interface de certaines fonctions d'accès permettant de retrouver les attributs de l'objet, il faut des fonctions globales publiques à partir du nom :
 
-Pour le type objet X, il suffit de déclarer :
+    public func indexLigne(cellule nom: String) -> Int {
+        Cellule(nom: nom).indexLigne
+    }
 
-    extension X: AvecLangage { }
-
-## Types prédicats, faits
-
-Certains types objet composés peuvent être considérés comme des "prédicats" exprimant une relation entre différents objets. Une instance d'un type prédicat est vue comme un "fait". C'est un point de vue qui s'apparente aux bases de données relationnelles et aux langages logiques comme Prolog.
-
-Un type prédicat possède différentes `static func` surcharges de `instances` vues comme des requêtes permettant d'effectuer des recherches. Chacune rend une liste de faits instances du prédicat : les faits qui satisfont les conditions de la requête. Chaque type de prédicat a ses requêtes particulières. Il n'y a pas de requête générique automatique, il faut programmer chaque requête.
-
-La seule chose qui distingue un type prédicat d'un autre type objet est l'existence de fonctions requêtes `instances`, et cela ne peut pas être exprimé par un protocole car il n'y a rien de générique. Tout tient seulement dans l'interprétation que le programmeur en fait.
-
-Dans cette vision "langage logique relationnel" du modèle, certains objets sont considérés comme des entités (des choses qui existent) et d'autres comme des faits (des phrases qui relient des entités et éventuellement d'autres faits). Mais ce n'est pas explicitement formalisé en Swift, c'est juste un point de vue du programmeur.
+    public func indexColonne(cellule nom: String) -> Int {
+        Cellule(nom: nom).indexColonne
+    }
 
 
+### Litteral composé
+
+
+	struct SingletonEliminateur 
+		let singleton: Presence
+	}
+	
+    struct SingletonEliminateur_: UnLitteral, Equatable {
+        let singleton: Presence_ 
+        var codeSwift: String {
+        	"SingletonEliminateur_(singleton: \(singleton.codeSwift))"
+    	}
+	}
+	
+L'attribut singleton du littéral a une valeur littérale Presence_
+
+	extension SingletonEliminateur: CodableEnLitteral {
+		typealias Litteral = SingletonEliminateur_
+    
+    	var litteral: SingletonEliminateur_ {
+        	SingletonEliminateur_(singleton: singleton.litteral)
+    	}
+    
+    	init(litteral: SingletonEliminateur_) {
+    		self.singleton = Presence(litteral: litteral.singleton)
+    	}
+	}
+
+
+On peut étendre le littéral pour lui faire profiter de certaines fonctions d'accès à des données liées à l'objet. Les valeurs rendues doivent être des littéraux.
+
+    extension SingletonEliminateur_ {
+        var valeur: Int {
+            Presence(litteral: singleton).valeurs.uniqueElement
+        }
+    }
+    

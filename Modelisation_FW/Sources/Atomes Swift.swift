@@ -9,80 +9,99 @@ import Foundation
 
 // MARK: - Atomes Swift
 
-/// Le type String est UnLitteral, mais pas CodableEnLitteral.
-extension String: UnLitteral {
+// Ce sont à la fois des littéraux et des objets qui sont leur propre littéral.
+// Leur codeSwift est leur description, sauf pour String, où c'est la debugDescription
+// Ils sont automatiquement CodableEnJson car Codable.
+
+extension String: UnLitteral, CodableEnLitteral {
+    
+    public typealias Litteral = Self
     
     /// Le codeSwift de `"abc"` est `"\"abc\""`
     public var codeSwift: String {
         self.debugDescription
     }
     
-}
-
-/// N'hérite pas de InstanciableParNom ni de CodableEnLitteral mais en a les méthodes
-/// Le but est d'éviter des conflits avec les méthodes par défaut pour descriptiion
-public protocol UnAtome: AvecLangage {
-    var nom: String { get }
-    init(nom: String)
-}
-
-public extension UnAtome {
-        
-    var litteral: String {
-        nom
+    public var litteral: String {
+        self
     }
     
-    init(litteral: String) {
-        self = Self(nom: litteral)
+    public init(litteral: String) {
+        self = litteral
     }
     
-    var source: String {
-        nom
-    }
-    
-    init(source: String) {
-        self = Self(nom: source)
-    }
 }
 
-extension Int: UnAtome {
+extension Int: UnLitteral, CodableEnLitteral {
+    
+    public typealias Litteral = Self
 
-    public var nom: String {
-        String(self)
+    public var codeSwift: String {
+        self.description
     }
 
     /// nom est de la forme "123". On obtient un Int 123
     /// fatalError si syntaxe invalide
-    public init(nom: String) {
-        self = Int(nom)!
+    public init(codeSwift: String) {
+        self = Int(codeSwift)!
     }
+    
+    public var litteral: Int {
+        self
+    }
+    
+    public init(litteral: Int) {
+        self = litteral
+    }
+
 
 }
 
-extension Double: UnAtome {
+extension Double: UnLitteral, CodableEnLitteral {
+    
+    public typealias Litteral = Self
 
-    public var nom: String {
-        String(self)
+    public var codeSwift: String {
+        self.description
     }
 
     /// nom est de la forme "0.123", on obtient un Double 0.123
     /// fatalError si syntaxe invalide
-    public init(nom: String) {
-        self = Double(nom)!
+    public init(codeSwift: String) {
+        self = Double(codeSwift)!
     }
+    
+    public var litteral: Double {
+        self
+    }
+    
+    public init(litteral: Double) {
+        self = litteral
+    }
+
 
 }
 
-extension Bool: UnAtome {
+extension Bool: UnLitteral, CodableEnLitteral {
+    
+    public typealias Litteral = Self
 
-    public var nom: String {
-        String(self)
+    public var codeSwift: String {
+        self.description
     }
 
     /// nom est de la forme "true" ou "false". On obtient un Bool true ou false.
     /// fatalError si syntaxe invalide
-    public init(nom: String) {
-        self = Bool(nom)!
+    public init(codeSwift: String) {
+        self = Bool(codeSwift)!
+    }
+    
+    public var litteral: Bool {
+        self
+    }
+    
+    public init(litteral: Bool) {
+        self = litteral
     }
 
 }

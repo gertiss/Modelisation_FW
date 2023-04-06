@@ -7,24 +7,11 @@
 
 import Foundation
 
-public protocol CodableEnJson {
-    
-    // Fonctions directes avec fatalError si échec
-    
-    var json: String { get }
-    static func avecJson(_ code: String) throws -> Self
-    
-    // Fonctions avec Result
+public protocol CodableEnJson: Codable {
     
     var jsonResult: Result<String, String> { get }
     static func avecJsonResult(_ code: String) -> Result<Self, String>
     
-    // fonctions avec try
-    
-    func jsonThrows() throws -> String
-    static func avecJsonThrows(_ code: String) throws -> Self
-    
-
 }
 
 // MARK: - Result
@@ -74,12 +61,7 @@ public extension CodableEnJson {
             throw erreur
         }
     }
-
-    /// encode en json ou sinon fatalError()
-    var json: String {
-        try! jsonThrows()
-    }
-
+    
     static func avecJsonThrows(_ json: String) throws -> Self {
         switch avecJsonResult(json) {
         case .success(let objet):
@@ -87,6 +69,17 @@ public extension CodableEnJson {
         case .failure(let erreur):
             throw erreur
         }
+    }
+}
+
+
+// MARK: - Accès sans protection
+
+public extension CodableEnJson {
+
+    /// encode en json ou sinon fatalError()
+    var json: String {
+        try! jsonThrows()
     }
 
     /// decode depuis json ou sinon fatalError()

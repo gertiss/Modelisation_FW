@@ -9,9 +9,7 @@ import Foundation
 
 
 /// Un type CodableEnLitteral possède une propriété `litteral` conforme au protocole `UnLitteral`.
-/// Cela permet de lui faire profiter de certaines fonctions de UnLitteral,
-/// en particulier la conformité aux protocoles de UnLitteral.
-public protocol CodableEnLitteral: Hashable, CustomStringConvertible, CustomDebugStringConvertible, Comparable, CodableEnJson {
+public protocol CodableEnLitteral {
     associatedtype Litteral: UnLitteral
     
     var litteral: Litteral { get }
@@ -19,55 +17,8 @@ public protocol CodableEnLitteral: Hashable, CustomStringConvertible, CustomDebu
     init(litteral: Litteral)
 }
 
-public extension CodableEnLitteral {
-    
-    var id: Litteral {
-        litteral
-    }
-    
-    /// Valeur par défaut : utilise la description du Litteral
-    /// Fonctionne pour les struct, mais pas pour les enum, qui ne peuvent pas être instanciées.
-    /// Les enum doivent redéfinir leur propre description.
-    /// Ce n'est peut-être pas une bonne idée, mais sinon il faut définir toutes les descriptions explicitement.
-    /// Peut-être faut-il utiliser Mirror
-    var description: String {
-        "\(Self.self)(litteral: \(litteral.description))"
-    }
-    
-    var debugDescription: String {
-        description.debugDescription
-    }
 
-    
-    static func == (lhs: Self, rhs: Self) -> Bool {
-        lhs.litteral == rhs.litteral
-    }
-    
-    static func < (lhs: Self, rhs: Self) -> Bool {
-        lhs.litteral < rhs.litteral
-    }
-    
-    func hash(into hasher: inout Hasher) {
-            hasher.combine(litteral)
-        }
-    
-    var jsonResult: Result<String, String> {
-        litteral.jsonResult
-    }
-    
-    static func avecJsonResult(_ json: String) -> Result<Self, String> {
-        let essai = Self.Litteral.avecJsonResult(json)
-        switch essai {
-        case .success(let litteral):
-            return .success(Self(litteral: litteral))
-        case .failure(let erreur):
-            return .failure(erreur)
-        }
-    }
-    
-    
-}
-
+/// Si le litteral est conforme à AvecLangage, on peut déclarer l'objet concret conforme à AvecLangage
 extension CodableEnLitteral where Litteral: AvecLangage {
     
     public var source: String {
