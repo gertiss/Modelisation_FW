@@ -145,3 +145,8 @@ On peut étendre le littéral pour lui faire profiter de certaines fonctions d'a
         }
     }
     
+Dans la ligne I, il ne reste que deux cellules Id Ie, donc paire IdIe_49 en jaune.
+
+Donc cela élimine 4 et 9 dans toutes les autres cases du carré Pn, en orange, en particulier dans la colonne f, en Gf et Hf. 
+
+Puis on raisonne pour la valeur 4 dans la colonne f. Gf et Hf sont éliminées par le raisonnement précédent, Bf en rouge est éliminée à cause de Bb_4, Ff en rouge est éliminée à cause de Fa. Il ne reste plus que Df en vert.

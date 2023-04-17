@@ -76,6 +76,14 @@ public extension Result where Failure == String {
 
 // MARK: - Array
 
+public extension Array {
+    
+    var uniqueValeur: Element? {
+        guard count == 1 else { return nil }
+        return self[0]
+    }
+}
+
 /// Conversions Array-Set
 public extension Array where Element: Hashable {
     var ensemble: Set<Element> {
@@ -87,10 +95,6 @@ public extension Array where Element: Hashable {
         ensemble.count
     }
     
-    /// `[1] -> 1, [1, 1] -> 1, [1, 2] -> nil`
-    var uniqueValeur: Element? {
-        ensemble.uniqueValeur
-    }
     
     /// fatalError si cardinal != 1
     /// `[1] -> 1, [1, 1] -> 1, [1, 2] -> fatalError`
