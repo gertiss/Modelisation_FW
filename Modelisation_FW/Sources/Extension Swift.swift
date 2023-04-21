@@ -9,9 +9,11 @@ import Foundation
 
 // MARK: - String
 
-extension String: Error {
+/// Attention : faire hériter String de Error avec localizedDescription ne suffit pas.
+/// Il faut LocalizedError et errorDescription.
+extension String: LocalizedError {
     
-    public var localizedDescription: String {
+    public var errorDescription: String? {
         self
     }
 }
